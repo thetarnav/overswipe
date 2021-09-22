@@ -1,13 +1,14 @@
 {
   "name": "overswipe",
   "version": "1.0.0",
+  "author": "Damian Tarnawski @thetarnav <gthetarnav@gmail.com>",
   "description": "Easily create your own overscroll behavior, by handling user swipe and scroll progress events.",
-  "main": "build/main/index.js",
-  "typings": "build/main/index.d.ts",
-  "module": "build/module/index.js",
   "repository": "https://github.com/thetarnav/overswipe",
   "license": "MIT",
   "keywords": [],
+  "main": "build/main/index.js",
+  "typings": "build/main/index.d.ts",
+  "module": "build/module/index.js",
   "scripts": {
     "build": "run-p build:*",
     "build:main": "tsc -p tsconfig.json",
