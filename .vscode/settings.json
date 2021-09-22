@@ -1,7 +1,16 @@
 {
-  "cSpell.userWords": [], // only use words from .cspell.json
-  "cSpell.enabled": true,
-  "editor.formatOnSave": true,
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true
+	"cSpell.userWords": [], // only use words from .cspell.json
+	"cSpell.enabled": true,
+	"editor.formatOnSave": true,
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"typescript.enablePromptUseWorkspaceTsdk": true,
+	"files.exclude": {
+		"**/.git": true,
+		"**/.svn": true,
+		"**/.hg": true,
+		"**/CVS": true,
+		"**/.DS_Store": true,
+		"**/Thumbs.db": true,
+		"**/node_modules": true
+	}
 }

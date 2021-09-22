@@ -41,10 +41,19 @@
   "engines": {
     "node": ">=10"
   },
-  "dependencies": {},
+  "dependencies": {
+    "immutable": "^4.0.0-rc.15",
+    "lodash.clamp": "^4.0.3",
+    "lodash.debounce": "^4.0.8",
+    "lodash.mapvalues": "^4.6.0",
+    "lodash.mergewith": "^4.6.2",
+    "lodash.omit": "^4.5.0",
+    "lodash.throttle": "^4.1.1"
+  },
   "devDependencies": {
     "@ava/typescript": "^1.1.1",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@types/lodash": "^4.14.173",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
     "ava": "^3.12.1",
@@ -65,6 +74,9 @@
     "ts-node": "^9.0.0",
     "typedoc": "^0.19.0",
     "typescript": "^4.0.2"
+  },
+  "peerDependencies": {
+    "lodash": "^4.17.21"
   },
   "files": [
     "build/main",
@@ -91,9 +103,6 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
-  },
-  "prettier": {
-    "singleQuote": true
   },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
