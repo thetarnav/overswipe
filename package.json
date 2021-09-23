@@ -1,6 +1,6 @@
 {
   "name": "overswipe",
-  "version": "1.0.0",
+  "version": "0.0.0-beta.1",
   "author": "Damian Tarnawski @thetarnav <gthetarnav@gmail.com>",
   "description": "Easily create your own overscroll behavior, by handling user swipe and scroll progress events.",
   "repository": "https://github.com/thetarnav/overswipe",
@@ -18,7 +18,7 @@
     "fix:lint": "eslint src --ext .ts --fix",
     "test": "run-s build test:*",
     "test:lint": "eslint src --ext .ts",
-    "test:prettier": "prettier \"src/**/*.ts\" --list-different",
+    "disabled.test:prettier": "prettier \"src/**/*.ts\" --list-different",
     "test:spelling": "cspell \"{README.md,.github/*.md,src/**/*.ts}\"",
     "test:unit": "nyc --silent ava",
     "check-cli": "run-s test diff-integration-tests check-integration-tests",
