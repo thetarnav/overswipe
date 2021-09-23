@@ -20,13 +20,15 @@ import {
 
 const { abs } = Math
 
-// eslint-disable-next-line functional/no-class
-export default class Overswipe {
-	private readonly minDistance = 250
-	private readonly resetTimeout = 300
-	private readonly boundsMargin = 50
-	private readonly minSpeed = 50
+export interface Settings {
+	readonly minDistance: number
+	readonly resetTimeout: number
+	readonly boundsMargin: number
+	readonly minSpeed: number
+}
 
+// eslint-disable-next-line functional/no-class
+export default class Overswipe implements ClientMethods {
 	private unsubscribeList = List<CookedUnsubscribe>([])
 	private swipeListeners = List<{
 		readonly type: EventType
@@ -44,30 +46,36 @@ export default class Overswipe {
 
 	constructor(
 		private readonly el: HTMLElement,
-		private readonly container: HTMLElement | Window = window,
+		private readonly container: HTMLElement | Window,
+		private readonly settings: Settings,
 	) {
 		this.unsubscribeList.push(
 			createIntersectionObserver(
 				container,
 				el,
 				visible => (this.onScreen = visible),
-				this.boundsMargin,
+				settings.boundsMargin,
 			),
 		)
 
-		this.listen('wheel', this.onWheel, { passive: false })
-		this.listen('touchstart', this.onTouchStart)
-		this.listen('touchmove', throttle(this.onTouchMove, 50), {
-			passive: false,
-		})
-		this.listen('touchend', this.onTouchEnd)
-		this.listen('scroll', debounce(this.onScroll, this.resetTimeout))
-
+		this.listen('scroll', debounce(this.onScroll, settings.resetTimeout))
 		this.updateNewBounds()
 	}
 
 	//
 	// Public Actions:
+
+	listenWheel() {
+		this.listen('wheel', this.onWheel, { passive: false })
+	}
+
+	listenTouch() {
+		this.listen('touchstart', this.onTouchStart)
+		this.listen('touchmove', throttle(this.onTouchMove, 50), {
+			passive: false,
+		})
+		this.listen('touchend', this.onTouchEnd)
+	}
 
 	off(
 		this: Overswipe,
@@ -80,12 +88,6 @@ export default class Overswipe {
 		)
 	}
 
-	on(
-		type: EventType,
-		direction: SwipeDirection,
-		callback: EventCallback,
-	): CookedUnsubscribe
-	on(type: EventType, callback: EventCallback): CookedUnsubscribe
 	on(
 		this: Overswipe,
 		type: EventType,
@@ -138,9 +140,9 @@ export default class Overswipe {
 		direction: SwipeDirection,
 		// eslint-disable-next-line functional/no-return-void
 	): void {
-		const progress = valToP(this.distance, 0, this.minDistance),
+		const progress = valToP(this.distance, 0, this.settings.minDistance),
 			capedProgress = clamp(progress, 0, 1),
-			capedDistance = clamp(this.distance, 0, this.minDistance)
+			capedDistance = clamp(this.distance, 0, this.settings.minDistance)
 		this.swipeListeners.forEach(
 			i =>
 				i.type === type &&
@@ -160,7 +162,7 @@ export default class Overswipe {
 		if (!this.swiping) return
 		this.swiped = this.swiping
 		this.emit('swipe', this.swiped)
-		setTimeout(this.updateNewBounds, this.resetTimeout)
+		setTimeout(this.updateNewBounds, this.settings.resetTimeout)
 	}
 
 	private resetSwipeState(this: Overswipe) {
@@ -174,7 +176,7 @@ export default class Overswipe {
 	private updateNewBounds(this: Overswipe) {
 		this.resetSwipeState()
 		const relPoz = relativePosition(this.el, this.container),
-			boundsReached = getBoundsReached(relPoz, this.boundsMargin)
+			boundsReached = getBoundsReached(relPoz, this.settings.boundsMargin)
 		this.allowSides = toSwipeDir(boundsReached)
 	}
 
@@ -203,7 +205,7 @@ export default class Overswipe {
 
 	// eslint-disable-next-line functional/no-return-void
 	private checkProgress(this: Overswipe): void {
-		this.distance >= this.minDistance && this.triggerSwipe()
+		this.distance >= this.settings.minDistance && this.triggerSwipe()
 	}
 
 	//
@@ -231,7 +233,10 @@ export default class Overswipe {
 		this.lastTouch = touch
 
 		// Is it fast?
-		if (abs(xVel) < this.minSpeed && abs(yVel) < this.minSpeed)
+		if (
+			abs(xVel) < this.settings.minSpeed &&
+			abs(yVel) < this.settings.minSpeed
+		)
 			return this.resetSwipeState()
 
 		// Is it HORIZONTAL:
@@ -252,7 +257,7 @@ export default class Overswipe {
 
 	private onTouchEnd(this: Overswipe) {
 		this.checkProgress()
-		setTimeout(this.updateNewBounds, this.resetTimeout)
+		setTimeout(this.updateNewBounds, this.settings.resetTimeout)
 	}
 
 	private onScroll(this: Overswipe) {

@@ -1,4 +1,3 @@
-/* eslint-disable functional/prefer-type-literal */
 /* eslint-disable functional/prefer-readonly-type */
 type SwipeDirection = 'up' | 'down' | 'left' | 'right'
 
@@ -33,4 +32,17 @@ interface TouchInfo {
 	x: number
 	y: number
 	time: number
+}
+
+interface Subscribe {
+	(
+		type: EventType,
+		direction: SwipeDirection,
+		callback: EventCallback,
+	): CookedUnsubscribe
+	(type: EventType, callback: EventCallback): CookedUnsubscribe
+}
+
+interface ClientMethods {
+	on: Subscribe
 }
