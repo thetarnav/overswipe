@@ -1,5 +1,12 @@
 import { mapValues, mergeWith, omit } from 'lodash'
 
+import type {
+	Bounds,
+	CookedUnsubscribe,
+	Position,
+	SwipeDirection,
+	TouchInfo,
+} from '../types/types'
 import { copyObject, minus } from '../utils/fp'
 import { isClose } from '../utils/functions'
 

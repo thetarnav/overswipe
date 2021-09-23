@@ -1,9 +1,11 @@
 /* eslint-disable functional/prefer-readonly-type */
-type SwipeDirection = 'up' | 'down' | 'left' | 'right'
+import Overswipe from '../lib/overswipeClass'
 
-type EventType = 'swipe' | 'progress' | 'cancel'
+export type SwipeDirection = 'up' | 'down' | 'left' | 'right'
 
-type EventCallback = (details: {
+export type EventType = 'swipe' | 'progress' | 'cancel'
+
+export type EventCallback = (details: {
 	type: EventType
 	direction: SwipeDirection
 	progress: number
@@ -14,27 +16,27 @@ type EventCallback = (details: {
 }) => void
 
 // eslint-disable-next-line functional/no-return-void
-type CookedUnsubscribe = () => void
+export type CookedUnsubscribe = () => void
 
-interface Position {
+export interface Position {
 	top: number
 	left: number
 	right: number
 	bottom: number
 }
 
-interface Bounds extends Position {
+export interface Bounds extends Position {
 	width: number
 	height: number
 }
 
-interface TouchInfo {
+export interface TouchInfo {
 	x: number
 	y: number
 	time: number
 }
 
-interface Subscribe {
+export interface Subscribe {
 	(
 		type: EventType,
 		direction: SwipeDirection,
@@ -43,6 +45,14 @@ interface Subscribe {
 	(type: EventType, callback: EventCallback): CookedUnsubscribe
 }
 
-interface ClientMethods {
+export type Unsubscribe = (
+	type: EventType,
+	dir: SwipeDirection,
+	handler: EventCallback,
+	// eslint-disable-next-line functional/no-return-void
+) => void
+
+export interface ClientMethods {
 	on: Subscribe
+	off: Unsubscribe
 }

@@ -30,6 +30,7 @@
 			"error",
 			{ "ignoreDeclarationSort": true, "ignoreCase": true }
 		],
-		"functional/prefer-type-literal": "off"
+		"functional/prefer-type-literal": "off",
+		"functional/functional-parameters": "off"
 	}
 }

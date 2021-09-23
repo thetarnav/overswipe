@@ -3,6 +3,12 @@
 import { List } from 'immutable'
 import { clamp, debounce, throttle } from 'lodash'
 
+import type {
+	CookedUnsubscribe,
+	EventCallback,
+	EventType,
+	SwipeDirection,
+} from '../types/types'
 import { isElementInPath, listenIfTrue } from '../utils/dom'
 import { valToP } from '../utils/functions'
 
@@ -28,7 +34,7 @@ export interface Settings {
 }
 
 // eslint-disable-next-line functional/no-class
-export default class Overswipe implements ClientMethods {
+export default class Overswipe {
 	private unsubscribeList = List<CookedUnsubscribe>([])
 	private swipeListeners = List<{
 		readonly type: EventType
@@ -65,11 +71,11 @@ export default class Overswipe implements ClientMethods {
 	//
 	// Public Actions:
 
-	listenWheel() {
+	listenWheel(this: Overswipe) {
 		this.listen('wheel', this.onWheel, { passive: false })
 	}
 
-	listenTouch() {
+	listenTouch(this: Overswipe) {
 		this.listen('touchstart', this.onTouchStart)
 		this.listen('touchmove', throttle(this.onTouchMove, 50), {
 			passive: false,
