@@ -18,6 +18,14 @@ export type EventCallback = (details: {
 // eslint-disable-next-line functional/no-return-void
 export type CookedUnsubscribe = () => void
 
+export type Callback<A0 = void, A1 = void, A2 = void, A3 = void> = (
+	arg0: A0,
+	arg1: A1,
+	arg2: A2,
+	arg3: A3,
+	// eslint-disable-next-line functional/no-return-void
+) => void
+
 export interface Position {
 	top: number
 	left: number

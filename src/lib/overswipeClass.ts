@@ -64,7 +64,10 @@ export default class Overswipe {
 			),
 		)
 
-		this.listen('scroll', debounce(this.onScroll, settings.resetTimeout))
+		this.listen(
+			'scroll',
+			debounce(() => this.onScroll(), settings.resetTimeout),
+		)
 		this.updateNewBounds()
 	}
 
@@ -72,15 +75,19 @@ export default class Overswipe {
 	// Public Actions:
 
 	listenWheel(this: Overswipe) {
-		this.listen('wheel', this.onWheel, { passive: false })
+		this.listen('wheel', e => this.onWheel(e), { passive: false })
 	}
 
 	listenTouch(this: Overswipe) {
-		this.listen('touchstart', this.onTouchStart)
-		this.listen('touchmove', throttle(this.onTouchMove, 50), {
-			passive: false,
-		})
-		this.listen('touchend', this.onTouchEnd)
+		this.listen('touchstart', e => this.onTouchStart(e))
+		this.listen(
+			'touchmove',
+			throttle(e => this.onTouchMove(e), 50),
+			{
+				passive: false,
+			},
+		)
+		this.listen('touchend', () => this.onTouchEnd())
 	}
 
 	off(

@@ -93,21 +93,3 @@ export const calcTouchChange = (
 	xMove: to.x - from.x,
 	yMove: to.y - from.y,
 })
-
-export const createIntersectionObserver = (
-	container: HTMLElement | Window,
-	el: HTMLElement,
-	// eslint-disable-next-line functional/no-return-void
-	callback: (isIntersecting: boolean) => void,
-	boundsMargin: number | string,
-): CookedUnsubscribe => {
-	const observer = new IntersectionObserver(
-		([{ isIntersecting }]) => callback(isIntersecting),
-		{
-			root: container instanceof Window ? document : container,
-			rootMargin: `-${boundsMargin}px`,
-		},
-	)
-	observer.observe(el)
-	return observer.disconnect
-}
